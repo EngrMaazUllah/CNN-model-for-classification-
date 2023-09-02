@@ -1,0 +1,23 @@
+import numpy as np
+model= tf.keras.models.load_model('fypNEW_model.h5')
+
+# cv2.namedWindow("output",cv2.WINDOW_NORMAL)
+# cv2.resizeWindow("output",200,200)
+img  = cv2.imread(r'E:\FYPpics\medium density\40.jpg')
+plt.imshow(img)
+cv2.imshow("output",img)
+cv2.waitKey(0)
+img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
+
+img2 = cv2.resize(img,(96,96))
+cv2.imshow('Window',img2)
+cv2.waitKey(0)
+img2 = img2.astype(float)/255
+results={
+    0:'high',
+    1:'low',
+    2:'medium'
+}
+pre=model.predict(np.expand_dims(img2,axis=0))
+pre=np.argmax(pre)
+print(results[pre])
